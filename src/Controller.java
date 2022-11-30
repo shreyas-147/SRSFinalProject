@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -74,7 +75,9 @@ public class Controller {
 
 		String[] file_dateStrings = { "20221121", "20221122", "20221123", "20221124", "20221125", "20221126",
 				"20221127", "20221128", "20221129" };
-		List<LocalDate> dates_from_the_directory = new ArrayList<LocalDate>();
+
+		// LocalDate date = LocalDate.of(year, month, day);
+		// Main.repo.addStudentAttendance(date, filepath);
 
 		for (int i = 0; i < file_dateStrings.length; i++) {
 			String file_date = file_dateStrings[i];
@@ -82,19 +85,14 @@ public class Controller {
 			int date_month = Integer.parseInt(file_date.substring(4, 6));
 			int date_day = Integer.parseInt(file_date.substring(6));
 			LocalDate date = LocalDate.of(date_year, date_month, date_day);
-			dates_from_the_directory.add(date);
-		}
-
-		// LocalDate date = LocalDate.of(year, month, day);
-		// Main.repo.addStudentAttendance(date, filepath);
-
-		for (int i = 0; i < dates_from_the_directory.size(); i++) {
-			Main.repo.addStudentAttendance(dates_from_the_directory.get(i), filepath);
+			Main.repo.addStudentAttendance(date, filepath);
 		}
 
 		// Display JDialog with added info
 		Display dis = new Display();
-		dis.displayAttendanceResult(Repository.additionalStudents, Repository.studentsAdded);
+		System.out.println("additionalStudents");
+        System.out.println(Repository.additionalStudents);
+		dis.displayAttendanceResult(Repository.additionalStudents, Repository.studentsAdded, file_dateStrings.length);
 	}
     
     /**

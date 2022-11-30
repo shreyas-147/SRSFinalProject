@@ -20,13 +20,15 @@ public class Display {
     }
 
     public void displayAttendanceResult(
-            LinkedHashMap<String, Integer> additionalStudents, int studentsAdded) {
+            LinkedHashMap<String, Integer> additionalStudents, int studentsAdded, int total_number_of_files_loaded) {
         JFrame frame = new JFrame();
         JDialog dialog = new JDialog(frame, "Attendance Results");
 
-        String loadedMessageText = "Data loaded for " + studentsAdded + " users in the roster.";
+        String loadedMessageText = "Data loaded for " + (studentsAdded / total_number_of_files_loaded)
+                + " users in the roster.";
 
-        String additionalMessageText = "<html>" + additionalStudents.size() + " additional attendee(s) was found:<br>";
+        String additionalMessageText = "<html>" + (additionalStudents.size())
+                + " additional attendee(s) was found:<br>";
 
         JPanel panel = new JPanel();
         JLabel loadedMessage = new JLabel(loadedMessageText);

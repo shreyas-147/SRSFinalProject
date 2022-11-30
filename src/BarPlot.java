@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.*;
@@ -108,7 +109,7 @@ public class BarPlot extends JPanel {
         List<LocalDate> dates = new ArrayList<LocalDate>();
 
         // Read dates from header list
-        for (int i = 6; i < Repository.headers.size(); i++) {
+        for (int i = 4; i < Repository.headers.size(); i++) {
             dates.add(LocalDate.parse(Repository.headers.get(i)));
         }
 
@@ -128,6 +129,8 @@ public class BarPlot extends JPanel {
             date[i] = Main.repo.parseDate(String.valueOf(dates.get(i)));
             record[i] = classData.get(i);
         }
+        System.out.println("dates array for plot");
+        System.out.println(Arrays.toString(date));
         f.getContentPane().add(new BarPlot(record, date, "BarPlot"));
         f.setVisible(true);
     }
