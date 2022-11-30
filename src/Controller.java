@@ -56,11 +56,11 @@ public class Controller {
      * Calls the datePickerGUI from DatePicker class
      * @param filepath path to the csv file with attendance data for the date being selected
      */
-	public static void displayDatePicker(String filepath) {
-		// Prompt user to select date of attendance
-        DatePicker calendar = new DatePicker();
-        calendar.datePickerGUI(filepath);
-    }
+	// public static void displayDatePicker(String filepath) {
+	// 	// Prompt user to select date of attendance
+    //     DatePicker calendar = new DatePicker();
+    //     calendar.datePickerGUI(filepath);
+    // }
     
 	/**
 	 * Calls the addStudentAttendance function from Repository
