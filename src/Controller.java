@@ -69,32 +69,33 @@ public class Controller {
 	 * @param year
 	 * @param filepath path to the csv file with attendance data for the date selected
 	 */
-    public static void saveDate(int month, int day, int year, String filepath) {
-    	// Save date and time from file into attendance data
+	public static void saveDate(int month, int day, int year, String filepath) {
+		// Save date and time from file into attendance data
 
-		String[] file_dateStrings = {"20221121","20221122","20221123","20221124", "20221125", "20221126", "20221127", "20221128", "20221129"};
+		String[] file_dateStrings = { "20221121", "20221122", "20221123", "20221124", "20221125", "20221126",
+				"20221127", "20221128", "20221129" };
 		List<LocalDate> dates_from_the_directory = new ArrayList<LocalDate>();
-		
+
 		for (int i = 0; i < file_dateStrings.length; i++) {
 			String file_date = file_dateStrings[i];
-			int date_year = Integer.parseInt(file_date.substring(0,4));
-			int date_month = Integer.parseInt(file_date.substring(4,6));
+			int date_year = Integer.parseInt(file_date.substring(0, 4));
+			int date_month = Integer.parseInt(file_date.substring(4, 6));
 			int date_day = Integer.parseInt(file_date.substring(6));
-			LocalDate date = LocalDate.of(date_year,  date_month, date_day);
+			LocalDate date = LocalDate.of(date_year, date_month, date_day);
 			dates_from_the_directory.add(date);
 		}
 
-    	// LocalDate date = LocalDate.of(year,  month, day);
-    	//Main.repo.addStudentAttendance(date, filepath);
+		// LocalDate date = LocalDate.of(year, month, day);
+		// Main.repo.addStudentAttendance(date, filepath);
 
 		for (int i = 0; i < dates_from_the_directory.size(); i++) {
 			Main.repo.addStudentAttendance(dates_from_the_directory.get(i), filepath);
 		}
 
-    	// Display JDialog with added info
-    	Display dis = new Display();
-    	dis.displayAttendanceResult(Repository.additionalStudents, Repository.studentsAdded);
-    }
+		// Display JDialog with added info
+		Display dis = new Display();
+		dis.displayAttendanceResult(Repository.additionalStudents, Repository.studentsAdded);
+	}
     
     /**
      * Calls the Display to display an error when the roster has not been loaded before save, add attendance, and plot data are called
@@ -108,9 +109,9 @@ public class Controller {
     /**
      * Displays the scatter plot GUI
      */
-    public static void displayScatterPlot() {
-    	ScatterPlot.scatterPlotGUI();
-    } 
+	public static void displayBarPlot() {
+		BarPlot.barPlotGUI();
+	} 
     
     /**
      * Displays the About dialogue box

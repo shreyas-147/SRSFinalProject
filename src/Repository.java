@@ -12,10 +12,11 @@ import java.util.Observable;
  * CSE360-70605 Final Project
  *
  * <p>
- * The main data structure for the assignment. Includes the roster, headers, and all the
+ * The main data structure for the assignment. Includes the roster, headers, and
+ * all the
  * functions needed to set, update, and convert the data in the data structure.
  * 
- * @author Yasser Dbeis, Junghwan (Kevin) Park, Hunter Paulson 
+ * @author Yasser Dbeis, Junghwan (Kevin) Park, Hunter Paulson
  */
 @SuppressWarnings("deprecation")
 public class Repository extends Observable {
@@ -42,7 +43,8 @@ public class Repository extends Observable {
     }
 
     /**
-     * Reads from the csvFile path passed as a parameter line by line adding each student to the
+     * Reads from the csvFile path passed as a parameter line by line adding each
+     * student to the
      * roster.
      *
      * @param csvFile path to roster csv file
@@ -67,6 +69,8 @@ public class Repository extends Observable {
             studentAttributes = line.split(delimiter);
             System.out.println("debugging step 3");
             System.out.println(line);
+            System.out.println("debugging step 4");
+            System.out.println(studentAttributes.toString());
 
             if (studentAttributes[0].equals("ID")) {
                 for (int i = headers.size(); i < studentAttributes.length; i++) {
@@ -90,8 +94,19 @@ public class Repository extends Observable {
         roster = studentList;
     }
 
+    public String parseDate(String date) {
+        String complete_date = date.toString();
+        String year = complete_date.substring(2, 4).trim();
+        String month = complete_date.substring(5, 7).trim();
+        String day = complete_date.substring(8).trim();
+        String new_date = month + "/" + day + "/" + year;
+        System.out.println("new_date - " + new_date.toString());
+        return new_date;
+    }
+
     /**
-     * Calls the read file function and notifies observers as per the observable-observer pattern
+     * Calls the read file function and notifies observers as per the
+     * observable-observer pattern
      *
      * @param csvInputFile path to roster csv file
      */
@@ -140,7 +155,8 @@ public class Repository extends Observable {
         try {
             FileWriter csvWriter = new FileWriter(saveFilePath);
 
-            if (!headers.isEmpty()) csvWriter.append(String.join(",", headers));
+            if (!headers.isEmpty())
+                csvWriter.append(String.join(",", headers));
 
             List<List<String>> tableData = new ArrayList();
 
@@ -167,7 +183,8 @@ public class Repository extends Observable {
     }
 
     /**
-     * Converts the headers array list to an array of strings Needed because JTable only accepts an
+     * Converts the headers array list to an array of strings Needed because JTable
+     * only accepts an
      * array of strings for headers
      *
      * @return String[] of the roster headers
@@ -177,14 +194,21 @@ public class Repository extends Observable {
         String[] headersArr = new String[headers.size()];
         int i = 0;
         for (String s : headers) {
-            headersArr[i] = s;
+            if (s == "ID" || s == "First Name" || s == "Last Name" || s == "ASURITE") {
+                headersArr[i] = s;
+            } else {
+                //System.out.println("headers in get headers - " + s);
+                String new_date = parseDate(s);
+                headersArr[i] = new_date;
+            }
             i++;
         }
         return headersArr;
     }
 
     /**
-     * Converts the table data to a double array of strings Needed because JTable only accepts a
+     * Converts the table data to a double array of strings Needed because JTable
+     * only accepts a
      * double array of strings for the data
      *
      * @return String[][] of the roster data
@@ -215,9 +239,10 @@ public class Repository extends Observable {
     }
 
     /**
-     * Adds the attendance data for the students by reading from the attendance filepath
+     * Adds the attendance data for the students by reading from the attendance
+     * filepath
      *
-     * @param date date that the attendance data is for
+     * @param date     date that the attendance data is for
      * @param filepath path to the csv file with attendance data
      */
     public void addStudentAttendance(LocalDate date, String filepath) {
@@ -296,11 +321,10 @@ public class Repository extends Observable {
         List<Double> xAxis = new ArrayList();
 
         for (Student student : roster) {
-            if (student.getDateAttendance(date) >= 75) {
-                xAxis.add(100.0);
+            if (student.getDateAttendance(date) > 0) {
+                xAxis.add(1.0);
             } else {
-                double percentage = student.getDateAttendance(date) / 75.0 * 100;
-                xAxis.add(percentage);
+                xAxis.add(0.0);
             }
         }
         return xAxis;
