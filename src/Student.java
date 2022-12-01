@@ -4,11 +4,8 @@ import java.util.LinkedHashMap;
 
 /**
  * Student Class
- * CSE360-70605 Final Project
- * <p>
  * Represents a Student Entry in the Roster
  * 
- * @author Yasser Dbeis
  */
 public class Student {
 

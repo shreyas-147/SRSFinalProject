@@ -8,10 +8,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * CSVFileChooser Class
- * CSE360-70605 Final Project
- *
- * @author Aidan Morgan, 
- * <p>
  * Displays JFileChooser dialogues based on whether the user is opening or saving a file.
  */
 public class CSVFileChooser extends JFileChooser {
@@ -22,6 +18,7 @@ public class CSVFileChooser extends JFileChooser {
 
     /** Constructor for CSVFileChooser */
     public CSVFileChooser() {
+        chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setFileFilter(filter);
         chooser.setBackground(Color.WHITE);
         chooser.setForeground(Color.white);
@@ -38,7 +35,7 @@ public class CSVFileChooser extends JFileChooser {
      */
     public File getOpenFile() {
         File file;
-        int returnVal = chooser.showOpenDialog(getParent());
+        int returnVal = chooser.showOpenDialog(null);
         file = chooser.getSelectedFile();
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {

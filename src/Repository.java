@@ -9,7 +9,6 @@ import java.util.Observable;
 
 /**
  * Repository Class
- * CSE360-70605 Final Project
  *
  * <p>
  * The main data structure for the assignment. Includes the roster, headers, and
@@ -26,6 +25,7 @@ public class Repository extends Observable {
     public static int studentsAdded = 0;
     public static LinkedHashMap<String, Integer> additionalStudents;
     public static List<LocalDate> dates;
+    public static List<String> students_added = new ArrayList<String>();
 
     public static final String delimiter = ",";
     public static final int baseHeaders = 4;
@@ -35,8 +35,6 @@ public class Repository extends Observable {
         headers.add("ID");
         headers.add("First Name");
         headers.add("Last Name");
-        // headers.add("Program");
-        // headers.add("Level");
         headers.add("ASURITE");
         additionalStudents = new LinkedHashMap();
         dates = new ArrayList<LocalDate>();
@@ -222,8 +220,6 @@ public class Repository extends Observable {
             stuAttributes[0] = roster.get(i).getID();
             stuAttributes[1] = roster.get(i).getFirstName();
             stuAttributes[2] = roster.get(i).getLastName();
-            // stuAttributes[3] = roster.get(i).getProgram();
-            // stuAttributes[4] = roster.get(i).getLevel();
             stuAttributes[3] = roster.get(i).getASURITE();
 
             int studentIndex = baseHeaders;
@@ -277,6 +273,9 @@ public class Repository extends Observable {
                     if (student.getASURITE().equals(ASURITE)) {
                         student.addAttendance(date, time);
                         additionalStudents.remove(ASURITE);
+                        if (!students_added.contains(ASURITE)) {
+                            students_added.add(ASURITE);
+                        }
                         studentsAdded++;
 
                         if (!this.hasDate(date)) {
