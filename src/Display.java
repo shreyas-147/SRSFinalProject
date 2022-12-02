@@ -51,7 +51,7 @@ public class Display {
         JLabel teamInfoLabel = new JLabel(teamInfo);
         teamInfoLabel.setFont(f3);
         teamInfoLabel.setForeground(Color.GREEN);
-        Border b1 = BorderFactory.createDashedBorder(Color.white);
+        Border b1 = BorderFactory.createDashedBorder(Color.black);
         Border b2 = BorderFactory.createEtchedBorder(Color.YELLOW, Color.RED);
         Border border = BorderFactory.createCompoundBorder(b2, b1);
         teamInfoLabel.setBorder(border);
