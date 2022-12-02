@@ -2,7 +2,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -48,8 +47,8 @@ public class Panel extends JPanel implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-    	String[][] data = ((Repository)o).getTableData();
-    	String[] headers = ((Repository)o).getHeaders();
+    	String[][] data = ((AttendanceDatabase)o).getTableData();
+    	String[] headers = ((AttendanceDatabase)o).getHeaders();
     	this.table.setModel(new DefaultTableModel(data, headers));
     	table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     }

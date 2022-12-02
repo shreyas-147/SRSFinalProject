@@ -10,7 +10,7 @@ import java.awt.event.*;
  */
 public class Main extends JFrame {
 
-    protected static Repository repo;
+    protected static AttendanceDatabase attendanceRecord;
 
     /**
      * Constructor for Main class. Initiates the GUI for the program.
@@ -24,16 +24,16 @@ public class Main extends JFrame {
                 Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2);
         setPreferredSize(preferred);
 
-        JMenuItem loadRoster = new JMenuItem("Load a Roster");
-        JMenuItem addAttendance = new JMenuItem("Add Attendance");
-        JMenuItem saveRoster = new JMenuItem("Save");
-        JMenuItem plotData = new JMenuItem("Plot Data");
+        JMenuItem loadStudentRoster = new JMenuItem("Load a Roster");
+        JMenuItem addStudentAttendance = new JMenuItem("Add Attendance");
+        JMenuItem saveStudentRoster = new JMenuItem("Save");
+        JMenuItem plotStudentData = new JMenuItem("Plot Data");
 
         JMenu file = new JMenu("File");
-        file.add(loadRoster);
-        file.add(addAttendance);
-        file.add(saveRoster);
-        file.add(plotData);
+        file.add(loadStudentRoster);
+        file.add(addStudentAttendance);
+        file.add(saveStudentRoster);
+        file.add(plotStudentData);
 
         JMenuItem about = new JMenuItem("About");
         JMenuBar menuBar = new JMenuBar();
@@ -48,24 +48,24 @@ public class Main extends JFrame {
         Panel panel = new Panel();
         add(panel, BorderLayout.CENTER);
 
-        repo = new Repository();
-        repo.addObserver(panel);
+        attendanceRecord = new AttendanceDatabase();
+        attendanceRecord.addObserver(panel);
 
-        saveRoster.addActionListener(new ActionListener() {
+        saveStudentRoster.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Repository.Roster != null) {
+                if (AttendanceDatabase.Roster != null) {
                     String inputFilepath = Controller.getSaveFilePath();
                     if (inputFilepath != null) {
                         Controller.saveTable(inputFilepath);
                     }
                 } else {
-                    Controller.displayNoRosterMessage();
+                    Controller.displayRosterErrorMessage();
                 }
             }
         });
 
-        loadRoster.addActionListener(new ActionListener() {
+        loadStudentRoster.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String inputFilepath = Controller.getRosterFilePath();
@@ -75,25 +75,25 @@ public class Main extends JFrame {
             }
         });
 
-        plotData.addActionListener(new ActionListener() {
+        plotStudentData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Repository.Roster != null) {
+                if (AttendanceDatabase.Roster != null) {
                     Controller.displayBarPlot();
                 } else {
-                    Controller.displayNoRosterMessage();
+                    Controller.displayRosterErrorMessage();
                 }
             }
         });
 
-        addAttendance.addActionListener(new ActionListener() {
+        addStudentAttendance.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Repository.Roster != null) {
+                if (AttendanceDatabase.Roster != null) {
                     String inputFilepath = Controller.getOpenDirectory();
                     Controller.readAttendanceFiles(inputFilepath);
                 } else {
-                    Controller.displayNoRosterMessage();
+                    Controller.displayRosterErrorMessage();
                 }
             }
         });
@@ -101,7 +101,7 @@ public class Main extends JFrame {
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.displayGroupInfo();
+                Controller.displayGroupDetails();
             }
         });
 
@@ -113,10 +113,11 @@ public class Main extends JFrame {
      * @param args
      */
     public static void main(String[] args) {
-        Main main = new Main();
-        main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        main.setSize(main.getPreferredSize());
-        main.setVisible(true);
+        System.out.println("\n CSE 563 Final Project is loading \n");
+        Main window = new Main();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setSize(window.getPreferredSize());
+        window.setVisible(true);
 
     }
 
