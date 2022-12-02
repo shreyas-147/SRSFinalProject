@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.Observable;
 
 /**
- * Class for storing the data of the program including roster, attendance
- * ,fileHeaders, etc. It also contains the functions for manipulating the data stored
+ * Repository Class for storing the data of the program including roster, attendance
+ * ,headers, etc. It also contains the functions for manipulating the data stored
  *
  */
-public class AttendanceDatabase extends Observable {
+public class Repository extends Observable {
 
     public static List<Student> Roster;
-    public static List<String> fileHeaders;
+    public static List<String> headers;
     public static int studentsAdded = 0;
     public static LinkedHashMap<String, Integer> additionalStudents;
     public static List<LocalDate> dates;
@@ -28,12 +28,12 @@ public class AttendanceDatabase extends Observable {
      * Constructor for the class which initializes the class variables
      *
      */
-    public AttendanceDatabase() {
-        fileHeaders = new ArrayList();
-        fileHeaders.add("ID");
-        fileHeaders.add("First Name");
-        fileHeaders.add("Last Name");
-        fileHeaders.add("ASURITE");
+    public Repository() {
+        headers = new ArrayList();
+        headers.add("ID");
+        headers.add("First Name");
+        headers.add("Last Name");
+        headers.add("ASURITE");
         additionalStudents = new LinkedHashMap();
         dates = new ArrayList<LocalDate>();
     }
@@ -44,7 +44,7 @@ public class AttendanceDatabase extends Observable {
      *
      * @param csvFile String of path for the Roster file
      */
-    public void readCSV(String csvFile) {
+    public void read(String csvFile) {
         List<Student> studentList = new ArrayList();
         try {
 
@@ -59,8 +59,8 @@ public class AttendanceDatabase extends Observable {
             studentAttributes = line.split(delimiter);
 
             if (studentAttributes[0].equals("ID")) {
-                for (int i = fileHeaders.size(); i < studentAttributes.length; i++) {
-                    fileHeaders.add(studentAttributes[i]);
+                for (int i = headers.size(); i < studentAttributes.length; i++) {
+                    headers.add(studentAttributes[i]);
                 }
             } else {
                 studentList.add(createStudent(studentAttributes));
@@ -81,14 +81,14 @@ public class AttendanceDatabase extends Observable {
     }
 
     /**
-     * Method for calling the readCSV file functionality and simultaneously
+     * Method for calling the read file functionality and simultaneously
      * notifying the observers
      *
      * @param csvInputFile String of path for the Roster File
      */
-    public void loadCSV(String csvInputFile) {
-        fileHeaders = fileHeaders.subList(0, baseHeaders);
-        this.readCSV(csvInputFile);
+    public void load(String csvInputFile) {
+        headers = headers.subList(0, baseHeaders);
+        this.read(csvInputFile);
         setChanged();
         notifyObservers();
     }
@@ -105,6 +105,7 @@ public class AttendanceDatabase extends Observable {
         String month = complete_date.substring(5, 7).trim();
         String day = complete_date.substring(8).trim();
         String new_date = month + "/" + day + "/" + year;
+        System.out.println("new_date - " + new_date.toString());
         return new_date;
     }
 
@@ -124,7 +125,7 @@ public class AttendanceDatabase extends Observable {
 
         Student stu = new Student(ID, firstName, lastName, ASURITE);
         for (int i = baseHeaders; i < attributes.length; i++) {
-            stu.addAttendance(LocalDate.parse(fileHeaders.get(i)), Integer.parseInt(attributes[i]));
+            stu.addAttendance(LocalDate.parse(headers.get(i)), Integer.parseInt(attributes[i]));
         }
         return stu;
     }
@@ -132,16 +133,16 @@ public class AttendanceDatabase extends Observable {
     /**
      * Method for saving the output file
      *
-     * @param saveFilePath String of path for saveCSV file location
+     * @param saveFilePath String of path for save file location
      * @return boolean status
      */
-    public boolean saveCSV(String saveFilePath) {
+    public boolean save(String saveFilePath) {
 
         try {
             FileWriter csvWriter = new FileWriter(saveFilePath);
 
-            if (!fileHeaders.isEmpty())
-                csvWriter.append(String.join(",", fileHeaders));
+            if (!headers.isEmpty())
+                csvWriter.append(String.join(",", headers));
 
             List<List<String>> tableData = new ArrayList();
 
@@ -185,8 +186,8 @@ public class AttendanceDatabase extends Observable {
             String ASURITE = "";
             int time = 0;
 
-            if (!fileHeaders.contains(date.toString())) {
-                fileHeaders.add(date.toString());
+            if (!headers.contains(date.toString())) {
+                headers.add(date.toString());
             }
 
             while ((line = br.readLine()) != null) { // Read all lines of csv file
@@ -229,16 +230,16 @@ public class AttendanceDatabase extends Observable {
     }
 
     /**
-     * Method for converting the arraylist of fileHeaders to an array of string to be used
+     * Method for converting the arraylist of headers to an array of string to be used
      * by the JTable
      *
-     * @return headersArr String of roster fileHeaders
+     * @return headersArr String of roster headers
      */
     public String[] getHeaders() {
 
-        String[] headersArray = new String[fileHeaders.size()];
+        String[] headersArray = new String[headers.size()];
         int i = 0;
-        for (String s : fileHeaders) {
+        for (String s : headers) {
             if (s == "ID" || s == "First Name" || s == "Last Name" || s == "ASURITE") {
                 headersArray[i] = s;
             } else {
@@ -275,7 +276,7 @@ public class AttendanceDatabase extends Observable {
         String[][] tableData = new String[Roster.size()][];
 
         for (int i = 0; i < Roster.size(); i++) {
-            String[] stuAttributes = new String[fileHeaders.size()];
+            String[] stuAttributes = new String[headers.size()];
             stuAttributes[0] = Roster.get(i).getID();
             stuAttributes[1] = Roster.get(i).getFirstName();
             stuAttributes[2] = Roster.get(i).getLastName();

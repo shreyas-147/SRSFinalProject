@@ -125,13 +125,13 @@ public class BarPlot extends JPanel {
         List<LocalDate> dates = new ArrayList<LocalDate>();
 
         // Read dates from header list
-        for (int i = 4; i < AttendanceDatabase.fileHeaders.size(); i++) {
-            dates.add(LocalDate.parse(AttendanceDatabase.fileHeaders.get(i)));
+        for (int i = 4; i < Repository.headers.size(); i++) {
+            dates.add(LocalDate.parse(Repository.headers.get(i)));
         }
 
         List<Double> classData = new ArrayList<Double>();
         for (LocalDate date : dates) {
-            List<Double> xAxis = Main.attendanceRecord.getDataSet(date);
+            List<Double> xAxis = Main.repo.getDataSet(date);
             double count = 0;
             for (int i = 0; i < xAxis.size(); i++) {
                 if (xAxis.get(i) > 0)
@@ -142,11 +142,11 @@ public class BarPlot extends JPanel {
         String[] date = new String[dates.size()];
         double[] record = new double[classData.size()];
         for (int i = 0; i < dates.size(); i++) {
-            date[i] = Main.attendanceRecord.parseDate(String.valueOf(dates.get(i)));
+            date[i] = Main.repo.parseDate(String.valueOf(dates.get(i)));
             record[i] = classData.get(i);
         }
-        System.out.println("\n Dates array for plot :");
-        System.out.println(Arrays.toString(date)+"\n");
+        System.out.println("dates array for plot");
+        System.out.println(Arrays.toString(date));
         f.getContentPane().add(new BarPlot(record, date, "BarPlot"));
         Dimension d= new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
         f.setSize(d.width,d.height);

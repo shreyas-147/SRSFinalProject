@@ -10,19 +10,18 @@ import javax.swing.border.Border;
  * attendance data
  *
  */
-public class Show {
+public class Display {
 
     /**
      * Method for displaying the error message when user tries
-     * to loadCSV attendance data before loading the Roster
+     * to load attendance data before loading the Roster
      *
      */
-    public void missingRosterErrorHandler() {
+    public void emptyRosterErrorHandler() {
         JFrame frame = new JFrame();
         JDialog dialog = new JDialog(frame, "Error");
         JPanel panel = new JPanel();
-        JLabel message = new JLabel("Please load the Roster before loading " +
-                "the attendance");
+        JLabel message = new JLabel("Please load the Roster before loading the attendance");
 
         panel.add(message);
         dialog.add(panel);
@@ -35,7 +34,7 @@ public class Show {
      * Method for displaying the team info when about is selected
      *
      */
-    public void displayTeamDetails() {
+    public void displayTeamInfo() {
         JFrame frame = new JFrame();
         JDialog dialog = new JDialog(frame, "About");
         JPanel panel = new JPanel();
@@ -105,9 +104,9 @@ public class Show {
 
         dialog.setSize(300, 300);
         dialog.setVisible(true);
-        AttendanceDatabase.additionalStudents.clear();
-        AttendanceDatabase.studentsAdded = 0;
-        AttendanceDatabase.students_added.clear();
+        Repository.additionalStudents.clear();
+        Repository.studentsAdded = 0;
+        Repository.students_added.clear();
 
     }
 
