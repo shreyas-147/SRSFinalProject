@@ -7,33 +7,63 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * CSVFileChooser Class
- * Displays JFileChooser dialogues based on whether the user is opening or saving a file.
+ * Class for choosing the Roster File using JFileChooser
+ *
  */
 public class CSVFileChooser extends JFileChooser {
 
     private JFileChooser chooser = new JFileChooser();
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
-    final Dimension prefered = new Dimension();
+    final Dimension preferred = new Dimension();
 
-    /** Constructor for CSVFileChooser */
+    /**
+     * Constructor for CSVFileChooser
+     *
+     */
     public CSVFileChooser() {
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setFileFilter(filter);
         chooser.setBackground(Color.WHITE);
         chooser.setForeground(Color.white);
-        prefered.setSize(
+        preferred.setSize(
                 Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2.25,
                 Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2.25);
-        chooser.setPreferredSize(prefered);
+        chooser.setPreferredSize(preferred);
     }
 
     /**
-     * Allows user to choose which file to open by displaying an open file dialogue
+     * Method for letting the user save the final file
      *
-     * @return File chosen by user
+     * @return File
      */
-    public File getOpenFile() {
+    public File getSaveFile() {
+        File file;
+        int returnVal = chooser.showSaveDialog(getParent());
+        file = chooser.getSelectedFile();
+
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+            file = null;
+        }
+
+        if (file.getName().indexOf('.') == -1) {
+            // no extension
+            file = new File(file.toString() + ".csv");
+        } else if (!file.getName()
+                .substring(file.getName().indexOf('.'))
+                .equalsIgnoreCase(".csv")) {
+            file = null;
+        } else {
+
+        }
+        return file;
+    }
+
+    /**
+     * Method for displaying a dialogue box for allowing the user to select a Roster File
+     *
+     * @return File Roster File selected by the user
+     */
+    public File getRosterFile() {
         File file;
         int returnVal = chooser.showOpenDialog(null);
         file = chooser.getSelectedFile();
@@ -50,33 +80,5 @@ public class CSVFileChooser extends JFileChooser {
         return file;
     }
 
-    /**
-     * Allows user to choose where/which file to save to by displaying a save file dialogue
-     *
-     * @return File chosen by user
-     */
-    public File getSaveFile() {
-        File file;
-        int returnVal = chooser.showSaveDialog(getParent());
-        file = chooser.getSelectedFile();
 
-        if (returnVal != JFileChooser.APPROVE_OPTION) {
-            file = null;
-        }
-
-        // check for extension tag in save file
-        if (file.getName().indexOf('.') == -1) {
-            // no extension
-            file = new File(file.toString() + ".csv");
-        } else if (!file.getName()
-                .substring(file.getName().indexOf('.'))
-                .equalsIgnoreCase(".csv")) {
-            // file extension is not a .csv file but has an extension
-            file = null;
-        } else {
-            // file extension is good
-        }
-
-        return file;
-    }
 }

@@ -8,19 +8,13 @@ import java.util.Map;
 import java.util.Observable;
 
 /**
- * Repository Class
+ * Repository Class for storing the data of the program including roster, attendance
+ * ,headers, etc. It also contains the functions for manipulating the data stored
  *
- * <p>
- * The main data structure for the assignment. Includes the roster, headers, and
- * all the
- * functions needed to set, update, and convert the data in the data structure.
- * 
- * @author Yasser Dbeis, Junghwan (Kevin) Park, Hunter Paulson
  */
-@SuppressWarnings("deprecation")
 public class Repository extends Observable {
 
-    public static List<Student> roster;
+    public static List<Student> Roster;
     public static List<String> headers;
     public static int studentsAdded = 0;
     public static LinkedHashMap<String, Integer> additionalStudents;
@@ -30,6 +24,10 @@ public class Repository extends Observable {
     public static final String delimiter = ",";
     public static final int baseHeaders = 4;
 
+    /**
+     * Constructor for the class which initializes the class variables
+     *
+     */
     public Repository() {
         headers = new ArrayList();
         headers.add("ID");
@@ -41,19 +39,13 @@ public class Repository extends Observable {
     }
 
     /**
-     * Reads from the csvFile path passed as a parameter line by line adding each
-     * student to the
-     * roster.
+     * Method for reading the files from the path provided and adding students
+     * per row
      *
-     * @param csvFile path to roster csv file
+     * @param csvFile String of path for the Roster file
      */
     public void read(String csvFile) {
         List<Student> studentList = new ArrayList();
-        System.out.println("debugging step 1");
-        System.out.println(csvFile);
-        System.out.println("debugging step 2");
-        System.out.println(studentList);
-
         try {
 
             File file = new File(csvFile);
@@ -65,10 +57,6 @@ public class Repository extends Observable {
 
             line = br.readLine();
             studentAttributes = line.split(delimiter);
-            System.out.println("debugging step 3");
-            System.out.println(line);
-            System.out.println("debugging step 4");
-            System.out.println(studentAttributes.toString());
 
             if (studentAttributes[0].equals("ID")) {
                 for (int i = headers.size(); i < studentAttributes.length; i++) {
@@ -89,9 +77,28 @@ public class Repository extends Observable {
             ioe.printStackTrace();
         }
 
-        roster = studentList;
+        Roster = studentList;
     }
 
+    /**
+     * Method for calling the read file functionality and simultaneously
+     * notifying the observers
+     *
+     * @param csvInputFile String of path for the Roster File
+     */
+    public void load(String csvInputFile) {
+        headers = headers.subList(0, baseHeaders);
+        this.read(csvInputFile);
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * Method for parsing the dates from the file name
+     *
+     * @param date
+     * @return
+     */
     public String parseDate(String date) {
         String complete_date = date.toString();
         String year = complete_date.substring(2, 4).trim();
@@ -103,26 +110,8 @@ public class Repository extends Observable {
     }
 
     /**
-     * Calls the read file function and notifies observers as per the
-     * observable-observer pattern
-     *
-     * @param csvInputFile path to roster csv file
-     */
-    public void load(String csvInputFile) {
-
-        headers = headers.subList(0, baseHeaders); // reset to default headers
-
-        this.read(csvInputFile);
-        setChanged();
-        notifyObservers();
-    }
-
-    /**
-     * createStudent takes in an array of strings,
-     * each entry corresponding to an attribute of
-     * the student read in a line of the input csv.
-     * The method will use these attributes to
-     * construct a Student object and return it as stu.
+     * Method for cr eating student object with their corresponding data
+     * and adding it to the data structure
      *
      * @param attributes String[]
      * @return Student
@@ -138,14 +127,13 @@ public class Repository extends Observable {
         for (int i = baseHeaders; i < attributes.length; i++) {
             stu.addAttendance(LocalDate.parse(headers.get(i)), Integer.parseInt(attributes[i]));
         }
-
         return stu;
     }
 
     /**
-     * saves the roster to a file
+     * Method for saving the output file
      *
-     * @param saveFilePath (String) path where file is to be saved
+     * @param saveFilePath String of path for save file location
      * @return boolean status
      */
     public boolean save(String saveFilePath) {
@@ -181,65 +169,11 @@ public class Repository extends Observable {
     }
 
     /**
-     * Converts the headers array list to an array of strings Needed because JTable
-     * only accepts an
-     * array of strings for headers
+     * Method for adding attendance of each student from the given file path
+     * and notifying the observers simultaneously
      *
-     * @return String[] of the roster headers
-     */
-    public String[] getHeaders() {
-
-        String[] headersArr = new String[headers.size()];
-        int i = 0;
-        for (String s : headers) {
-            if (s == "ID" || s == "First Name" || s == "Last Name" || s == "ASURITE") {
-                headersArr[i] = s;
-            } else {
-                //System.out.println("headers in get headers - " + s);
-                String new_date = parseDate(s);
-                headersArr[i] = new_date;
-            }
-            i++;
-        }
-        return headersArr;
-    }
-
-    /**
-     * Converts the table data to a double array of strings Needed because JTable
-     * only accepts a
-     * double array of strings for the data
-     *
-     * @return String[][] of the roster data
-     */
-    public String[][] getTableData() {
-
-        String[][] tableData = new String[roster.size()][];
-
-        for (int i = 0; i < roster.size(); i++) {
-            String[] stuAttributes = new String[headers.size()];
-            stuAttributes[0] = roster.get(i).getID();
-            stuAttributes[1] = roster.get(i).getFirstName();
-            stuAttributes[2] = roster.get(i).getLastName();
-            stuAttributes[3] = roster.get(i).getASURITE();
-
-            int studentIndex = baseHeaders;
-            for (Map.Entry<LocalDate, Integer> e : roster.get(i).getAttendance().entrySet()) {
-                stuAttributes[studentIndex] = Integer.toString(e.getValue());
-                studentIndex++;
-            }
-
-            tableData[i] = stuAttributes;
-        }
-
-        return tableData;
-    }
-
-    /**
-     * Adds the attendance data for the students by reading from the attendance
-     * filepath
-     *
-     * @param date     date that the attendance data is for
-     * @param filepath path to the csv file with attendance data
+     * @param date     attendance date
+     * @param filepath String of path for the attendance data
      */
     public void addStudentAttendance(LocalDate date, String filepath) {
 
@@ -267,7 +201,7 @@ public class Repository extends Observable {
 
                 additionalStudents.put(ASURITE, time);
 
-                for (Student student : roster) { // Find student by ASURITE
+                for (Student student : Roster) { // Find student by ASURITE
                     student.addAttendance(date, 0);
 
                     if (student.getASURITE().equals(ASURITE)) {
@@ -296,7 +230,29 @@ public class Repository extends Observable {
     }
 
     /**
-     * Checks if the the dateToCheck is in the dates in the roster
+     * Method for converting the arraylist of headers to an array of string to be used
+     * by the JTable
+     *
+     * @return headersArr String of roster headers
+     */
+    public String[] getHeaders() {
+
+        String[] headersArray = new String[headers.size()];
+        int i = 0;
+        for (String s : headers) {
+            if (s == "ID" || s == "First Name" || s == "Last Name" || s == "ASURITE") {
+                headersArray[i] = s;
+            } else {
+                String new_date = parseDate(s);
+                headersArray[i] = new_date;
+            }
+            i++;
+        }
+        return headersArray;
+    }
+
+    /**
+     * Method for checking if a date has already been added to the roster
      *
      * @param dateToCheck
      * @return boolean True if the date is in the roster, false otherwise
@@ -311,15 +267,44 @@ public class Repository extends Observable {
     }
 
     /**
-     * Gets the attendance data in percentage of time attended for the scatter plot
+     * Method for converting the data to a format suitable for displaying in the JTable
      *
-     * @param date to collect the attendance data for
+     * @return tableData String of the Roster data
+     */
+    public String[][] getTableData() {
+
+        String[][] tableData = new String[Roster.size()][];
+
+        for (int i = 0; i < Roster.size(); i++) {
+            String[] stuAttributes = new String[headers.size()];
+            stuAttributes[0] = Roster.get(i).getID();
+            stuAttributes[1] = Roster.get(i).getFirstName();
+            stuAttributes[2] = Roster.get(i).getLastName();
+            stuAttributes[3] = Roster.get(i).getASURITE();
+
+            int studentIndex = baseHeaders;
+            for (Map.Entry<LocalDate, Integer> e : Roster.get(i).getAttendance().entrySet()) {
+                stuAttributes[studentIndex] = Integer.toString(e.getValue());
+                studentIndex++;
+            }
+
+            tableData[i] = stuAttributes;
+        }
+
+        return tableData;
+    }
+
+    /**
+     * Method for checking whether a student attended the class or not
+     * for displaying it in the bar plot
+     *
+     * @param date date to check attendance data for each student
      * @return an array list of attendance data percentages
      */
     public List<Double> getDataSet(LocalDate date) {
         List<Double> xAxis = new ArrayList();
 
-        for (Student student : roster) {
+        for (Student student : Roster) {
             if (student.getDateAttendance(date) > 0) {
                 xAxis.add(1.0);
             } else {

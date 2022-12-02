@@ -3,30 +3,26 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
- * Student Class
- * Represents a Student Entry in the Roster
- * 
+ * Class for storing the details of each student from the
+ * roster file
+ *
  */
 public class Student {
 
-    // hashmap to map date of attendance to the time the student attended
     private HashMap<LocalDate, Integer> attendance;
-
-    // ID, name, program, level, and ASURITE are all attributes of the student
     private String ID;
     private String firstName;
     private String lastName;
     private String ASURITE;
 
     /**
-     * Parameterized constructor to create the student object
+     * Constructor for creating a student object
      *
      * @param ID Student's ID
      * @param firstName Student's First Name
      * @param lastName Student's Last Name
      * @param ASURITE Student's ASURITE
      */
-
     public Student(
             String ID,
             String firstName,
@@ -40,9 +36,8 @@ public class Student {
     }
 
     /**
-     * Takes in a date and time spent attending on that date and either adds an attendance entry
-     * (mapping the date to the time spent) or updates an entry that is already present with the
-     * same date by adding to the time.
+     * Method for either creating or updating the attendance data for a particular
+     * student for a particular date
      *
      * @param date Date of attendance
      * @param time Time spent attending class on that day
@@ -52,26 +47,26 @@ public class Student {
     }
 
     /**
-     * Gets attendance time for a certain date
+     * Method for getting the attendance time for a particular date
      *
      * @param date
-     * @return Time spent on that particular date by student attending
+     * @return Time
      */
     public int getDateAttendance(LocalDate date) {
         return attendance.get(date);
     }
 
     /**
-     * Gets the attendance mapping for the particular student
+     * Method for getting the attendance mapping of respective student
      *
-     * @return Map mapping the dates to the attendance time
+     * @return Map Mapping of students with time for a date
      */
     public HashMap<LocalDate, Integer> getAttendance() {
         return new LinkedHashMap(attendance);
     }
 
     /**
-     * Gets the ID of the student
+     * Getter for Student ID
      *
      * @return String value of student's ID
      */
@@ -80,7 +75,7 @@ public class Student {
     }
 
     /**
-     * Updates student's ID
+     * Setter for student ID
      *
      * @param ID
      */
@@ -89,43 +84,7 @@ public class Student {
     }
 
     /**
-     * Gets student's first name
-     *
-     * @return String of students first name
-     */
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    /**
-     * Updates students first name
-     *
-     * @param firstName
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    /**
-     * Gets students last name
-     *
-     * @return String of students last name
-     */
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    /**
-     * Updates students last name
-     *
-     * @param lastName
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    /**
-     * Gets student's ASURITE
+     * Getter student's ASURITE
      *
      * @return String value of students ASURITE
      */
@@ -134,11 +93,49 @@ public class Student {
     }
 
     /**
-     * Updates students ASURITE
+     * Setter students ASURITE
      *
      * @param ASURITE
      */
+
     public void setASURITE(String ASURITE) {
         this.ASURITE = ASURITE;
     }
+    /**
+     * Getter for student's first name
+     *
+     * @return String of students first name
+     */
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    /**
+     * Setter for students first name
+     *
+     * @param firstName
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Getter students last name
+     *
+     * @return String of students last name
+     */
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    /**
+     * Setter students last name
+     *
+     * @param lastName
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+
 }

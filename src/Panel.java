@@ -7,16 +7,16 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Panel Class
- * This is the main Panel under the JMenu that displays the JTable of all the data
+ * Class for displaying the Table for the data
+ *
  */
 public class Panel extends JPanel implements Observer {
     
 	protected JTable table;
 
-	/**s
-	 * Constructor for Panel class.
-	 * Adds a scroll pane with a JTable inside of it to the JPanel
+	/**
+	 * Constructor for Panel class which also adds a scroll pane
+	 *
 	 */
     public Panel() {
     	
@@ -40,7 +40,9 @@ public class Panel extends JPanel implements Observer {
     
     
     /**
-     * Sets the value of the drawable object and repaints the JPanel
+	 * Method for setting the value of drawable object and repainting
+	 * the Panel
+	 *
      * @param o Observable object that notified this plotPanel observer
      * @param arg Object passed by notifyObservers() 
      */
@@ -48,12 +50,6 @@ public class Panel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
     	String[][] data = ((Repository)o).getTableData();
     	String[] headers = ((Repository)o).getHeaders();
-    	//System.out.println(Arrays.toString(Repository.headers.toArray()));
-    	// System.out.println("headers");
-		// System.out.println(Arrays.toString(headers));
-    	// for(String[] arr : data) {
-    	// 	System.out.println(Arrays.toString(arr));
-    	// }
     	this.table.setModel(new DefaultTableModel(data, headers));
     	table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     }
