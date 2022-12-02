@@ -26,7 +26,7 @@ public class Controller {
 	 */
 	public static String getRosterFilePath() {
 		try {
-			return new CSVFileUtility().getRosterFile().getAbsolutePath().toString();
+			return new CSVFileChooser().getRosterFile().getAbsolutePath().toString();
 		} catch (java.lang.NullPointerException e) {
 			return null;
 		}
@@ -39,7 +39,7 @@ public class Controller {
 	 */
 	public static String getSaveFilePath() {
 		try {
-			return new CSVFileUtility().getSaveFile().getAbsolutePath().toString();
+			return new CSVFileChooser().getSaveFile().getAbsolutePath().toString();
 		} catch (java.lang.NullPointerException e) {
 			return null;
 		}
@@ -51,7 +51,7 @@ public class Controller {
 	 * @param filepath String of path for Roster File
 	 */
 	public static void loadRosterTable(String filepath) {
-		Main.attendanceRecord.loadCSV(filepath);
+		Main.repo.load(filepath);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class Controller {
 	 * @param filepath String of path for the Saving file
 	 */
 	public static void saveTable(String filepath) {
-		Main.attendanceRecord.saveCSV(filepath);
+		Main.repo.save(filepath);
 	}
 
 	/**
@@ -68,9 +68,9 @@ public class Controller {
 	 * before loading the roster
 	 *
 	 */
-	public static void displayRosterErrorMessage() {
-		Show errorAlert = new Show();
-		errorAlert.missingRosterErrorHandler();
+	public static void displayNoRosterMessage() {
+		Display noRoster = new Display();
+		noRoster.emptyRosterErrorHandler();
 	}
 
 	/**
@@ -85,9 +85,9 @@ public class Controller {
 	 * Method for displaying the About group info
 	 *
 	 */
-	public static void displayGroupDetails() {
-		Show groupDetails = new Show();
-		groupDetails.displayTeamDetails();
+	public static void displayGroupInfo() {
+		Display groupInfo = new Display();
+		groupInfo.displayTeamInfo();
 	}
 
 	/**
@@ -112,14 +112,14 @@ public class Controller {
 				int date_month = Integer.parseInt(fileDate.substring(4, 6));
 				int date_day = Integer.parseInt(fileDate.substring(6));
 				LocalDate date = LocalDate.of(date_year, date_month, date_day);
-				Main.attendanceRecord.addStudentAttendance(date, filePath);
+				Main.repo.addStudentAttendance(date, filePath);
 				System.out.println("File read : " + pathname);
 			} else {
 				System.out.println("File cannot be read : ");
 			}
 		}
-		Show dis = new Show();
-		dis.displayAttendanceResult(AttendanceDatabase.additionalStudents, AttendanceDatabase.students_added.size());
+		Display dis = new Display();
+		dis.displayAttendanceResult(Repository.additionalStudents, Repository.students_added.size());
 
 	}
 }

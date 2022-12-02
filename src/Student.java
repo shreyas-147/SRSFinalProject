@@ -9,11 +9,11 @@ import java.util.LinkedHashMap;
  */
 public class Student {
 
+    private HashMap<LocalDate, Integer> attendance;
     private String ID;
     private String firstName;
     private String lastName;
     private String ASURITE;
-    private HashMap<LocalDate, Integer> studentAttendance;
 
     /**
      * Constructor for creating a student object
@@ -32,37 +32,37 @@ public class Student {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ASURITE = ASURITE;
-        this.studentAttendance = new LinkedHashMap();
+        this.attendance = new LinkedHashMap();
     }
 
     /**
-     * Method for either creating or updating the studentAttendance data for a particular
+     * Method for either creating or updating the attendance data for a particular
      * student for a particular date
      *
-     * @param date Date of studentAttendance
+     * @param date Date of attendance
      * @param time Time spent attending class on that day
      */
     public void addAttendance(LocalDate date, int time) {
-        studentAttendance.put(date, studentAttendance.getOrDefault(date, 0) + time);
+        attendance.put(date, attendance.getOrDefault(date, 0) + time);
     }
 
     /**
-     * Method for getting the studentAttendance time for a particular date
+     * Method for getting the attendance time for a particular date
      *
      * @param date
      * @return Time
      */
     public int getDateAttendance(LocalDate date) {
-        return studentAttendance.get(date);
+        return attendance.get(date);
     }
 
     /**
-     * Method for getting the studentAttendance mapping of respective student
+     * Method for getting the attendance mapping of respective student
      *
      * @return Map Mapping of students with time for a date
      */
     public HashMap<LocalDate, Integer> getAttendance() {
-        return new LinkedHashMap(studentAttendance);
+        return new LinkedHashMap(attendance);
     }
 
     /**
@@ -79,9 +79,9 @@ public class Student {
      *
      * @param ID
      */
-//    public void setID(String ID) {
-//        this.ID = ID;
-//    }
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
     /**
      * Getter student's ASURITE
@@ -98,9 +98,9 @@ public class Student {
      * @param ASURITE
      */
 
-//    public void setASURITE(String ASURITE) {
-//        this.ASURITE = ASURITE;
-//    }
+    public void setASURITE(String ASURITE) {
+        this.ASURITE = ASURITE;
+    }
     /**
      * Getter for student's first name
      *
@@ -115,9 +115,9 @@ public class Student {
      *
      * @param firstName
      */
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
     /**
      * Getter students last name
@@ -133,9 +133,9 @@ public class Student {
      *
      * @param lastName
      */
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
 
 }
