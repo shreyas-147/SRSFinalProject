@@ -10,9 +10,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * Class for choosing the Roster File using JFileChooser
  *
  */
-public class CSVFileChooser extends JFileChooser {
+public class CSVFileUtility extends JFileChooser {
 
-    private JFileChooser chooser = new JFileChooser();
+    private JFileChooser fileChooser = new JFileChooser();
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
     final Dimension preferred = new Dimension();
 
@@ -20,26 +20,26 @@ public class CSVFileChooser extends JFileChooser {
      * Constructor for CSVFileChooser
      *
      */
-    public CSVFileChooser() {
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setFileFilter(filter);
-        chooser.setBackground(Color.WHITE);
-        chooser.setForeground(Color.white);
+    public CSVFileUtility() {
+        fileChooser.setCurrentDirectory(new java.io.File("."));
+        fileChooser.setFileFilter(filter);
+        fileChooser.setForeground(Color.white);
+        fileChooser.setBackground(Color.WHITE);
         preferred.setSize(
                 Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2.25,
                 Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2.25);
-        chooser.setPreferredSize(preferred);
+        fileChooser.setPreferredSize(preferred);
     }
 
     /**
-     * Method for letting the user save the final file
+     * Method for letting the user saveCSV the final file
      *
      * @return File
      */
     public File getSaveFile() {
         File file;
-        int returnVal = chooser.showSaveDialog(getParent());
-        file = chooser.getSelectedFile();
+        int returnVal = fileChooser.showSaveDialog(getParent());
+        file = fileChooser.getSelectedFile();
 
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             file = null;
@@ -65,8 +65,8 @@ public class CSVFileChooser extends JFileChooser {
      */
     public File getRosterFile() {
         File file;
-        int returnVal = chooser.showOpenDialog(null);
-        file = chooser.getSelectedFile();
+        int returnVal = fileChooser.showOpenDialog(null);
+        file = fileChooser.getSelectedFile();
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String fileName = file.getName();
