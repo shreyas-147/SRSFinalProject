@@ -118,11 +118,11 @@ public class AttendanceDatabase extends Observable {
      */
     public Student createStudent(String[] attributes) {
         String ID = attributes[0];
-        String firstName = attributes[1];
-        String lastName = attributes[2];
+        String student_first_name = attributes[1];
+        String student_last_name = attributes[2];
         String ASURITE = attributes[3];
 
-        Student stu = new Student(ID, firstName, lastName, ASURITE);
+        Student stu = new Student(ID, student_first_name, student_last_name, ASURITE);
         for (int i = baseHeaders; i < attributes.length; i++) {
             stu.addAttendance(LocalDate.parse(fileHeaders.get(i)), Integer.parseInt(attributes[i]));
         }
@@ -203,7 +203,7 @@ public class AttendanceDatabase extends Observable {
                 for (Student student : Roster) { // Find student by ASURITE
                     student.addAttendance(date, 0);
 
-                    if (student.getASURITE().equals(ASURITE)) {
+                    if (student.getStudentASURITEID().equals(ASURITE)) {
                         student.addAttendance(date, time);
                         additionalStudents.remove(ASURITE);
                         if (!students_added.contains(ASURITE)) {
@@ -277,9 +277,9 @@ public class AttendanceDatabase extends Observable {
         for (int i = 0; i < Roster.size(); i++) {
             String[] stuAttributes = new String[fileHeaders.size()];
             stuAttributes[0] = Roster.get(i).getID();
-            stuAttributes[1] = Roster.get(i).getFirstName();
-            stuAttributes[2] = Roster.get(i).getLastName();
-            stuAttributes[3] = Roster.get(i).getASURITE();
+            stuAttributes[1] = Roster.get(i).getStudentFirstName();
+            stuAttributes[2] = Roster.get(i).getStudentLastName();
+            stuAttributes[3] = Roster.get(i).getStudentASURITEID();
 
             int studentIndex = baseHeaders;
             for (Map.Entry<LocalDate, Integer> e : Roster.get(i).getAttendance().entrySet()) {

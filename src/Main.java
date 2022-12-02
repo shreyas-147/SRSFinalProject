@@ -101,7 +101,7 @@ public class Main extends JFrame {
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.displayGroupDetails();
+                Controller.displayAboutInformation();
             }
         });
 

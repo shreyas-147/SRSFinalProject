@@ -85,7 +85,7 @@ public class Controller {
 	 * Method for displaying the About group info
 	 *
 	 */
-	public static void displayGroupDetails() {
+	public static void displayAboutInformation() {
 		Show groupDetails = new Show();
 		groupDetails.displayTeamDetails();
 	}
